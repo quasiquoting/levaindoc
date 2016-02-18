@@ -1,0 +1,10 @@
+## -*- conf -*-
+.DS_Store
+_*
+*.o
+*.beam
+*.plt
+.erlang.cookie
+ebin
+log
+erl_crash.dump

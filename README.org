@@ -1,0 +1,27 @@
+* levaindoc
+Levaindoc is a lightweight LFE wrapper for [[http://pandoc.org][pandoc]],
+based on its Elixir cousin, [[https://github.com/FilterKaapi/pandex][pandex]].
+
+Levaindoc can perform [[http://pandoc.org/diagram.jpg][lots of conversions]].
+
+** Installation
+[[http://pandoc.org/installing.html][Install pandoc]] and add Levaindoc to =rebar.config=:
+#+BEGIN_SRC erlang
+{deps,
+ [{levaindoc,
+   {git, "git://github.com/quasiquoting/levaindoc.git",
+    {branch, "master"}}}]}.
+#+END_SRC
+
+** TODO Usage
+
+** License
+Copyright (c) 2016 Eric Bailey
+
+This work is free. You can redistribute it and/or modify it under the
+terms of the MIT License. See the [[file:LICENSE][LICENSE]] file for more details.
+
+Levaindoc is based on [[https://github.com/FilterKaapi/pandex][Pandex]] by [[https://github.com/FilterKaapi][Sandeep Laxman]],
+which is also licensed under the MIT License.
+
+Copyright (c) 2015 Sandeep Laxman
