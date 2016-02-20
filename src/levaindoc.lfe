@@ -4,47 +4,22 @@
   ;; API
   (export (convert-string 1) (convert-string 3) (convert-string 4)
           (convert-file   1) (convert-file   3) (convert-file   4))
-  ;; GFM->HTML
-  (export (markdown_github->html 1) (markdown_github->html 2))
-  #| (export-macro defconv) |#)
+  ;; Conversions
+  (export all))
 
-(include-lib "clj/include/compose.lfe")
+(include-lib "include/conditionals.lfe")
 
-;; TODO: Push local clj changes and make a few PRs
-;; (include-lib "clj/include/conditionals.lfe")
-(defmacro when-not
-  "If `test` evaluates to `false`, evaluate `body` in an implicit `progn`,
-otherwise if `test` evaluates to `true`, return `undefined`."
-  (`(,test . ,body)
-   `(if ,test 'undefined (progn ,@body))))
-
-(defmacro defconv (reader writer)
-  "Define a conversion from `reader` to `writer`."
-  `(progn
-     (defun ,(list_to_atom (++ reader "->" writer)) (string _options)
-       (convert-string string ,reader ,writer))
-     (defun ,(list_to_atom (++ reader "->" writer)) (string)
-       (,(list_to_atom (++ reader "->" writer)) string []))))
-
-(defconv "markdown_github" "html")
+(include-lib "include/conversions.lfe")
 
 
-;; TODO: Get this to work!
-#|
-(progn
-  (eval-when-compile
-    (lc ((<- reader '["markdown" "markdown_github" "markdown_strict"
-                      "markdown_mmd" "markdown_phpextra" "commonmark"
-                      "json" "rst" "textile" "html" "latex"])
-         (<- writer '["json" "html" "html5" "s5" "slidy" "dzslides"
-                      "docbook" "man" "opendocument" "latex" "beamer"
-                      "context" "texinfo" "markdown" "markdown_github"
-                      "markdown_strict" "markdown_mmd" "markdown_phpextra"
-                      "commonmark" "plain" "rst" "mediawiki" "textile"
-                      "rtf" "org" "asciidoc"]))
-      `(defun ,(list_to_atom (++ reader "->" writer)) (string)
-         (convert-string string ,reader ,writer)))))
-|#
+;;;===================================================================
+;;; Conversions
+;;;===================================================================
+
+;; Define all the conversion functions, unary and binary,
+;; with names of the form, {{reader}}->{{writer}}.
+;; See include/conversions.lfe for details.
+(defconversions)
 
 
 ;;;===================================================================
