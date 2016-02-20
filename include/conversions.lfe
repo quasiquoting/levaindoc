@@ -4,6 +4,10 @@
      (defun ,(list_to_atom (++ input "->" output)) (string _options)
        (convert-string string ,input ,output))
      (defun ,(list_to_atom (++ input "->" output)) (string)
+       (,(list_to_atom (++ input "->" output)) string []))
+     (defun ,(list_to_atom (++ input "-file->" output)) (string _options)
+       (convert-file string ,input ,output))
+     (defun ,(list_to_atom (++ input "-file->" output)) (string)
        (,(list_to_atom (++ input "->" output)) string []))))
 
 (defmacro defconversions ()

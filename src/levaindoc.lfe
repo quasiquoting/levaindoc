@@ -51,11 +51,13 @@ and return `` `#(ok ,output) ``."
         `#(ok ,output)))))
 
 (defun convert-file (file)
-  "Equivalent to `(`[[convert-file/3]]` file \"markdown_github\" \"html\")`."
-  (convert-file file "markdown" "html"))
+  "Equivalent to `markdown_github-file->html/1`, which calls [[convert-file/3]].
+
+See [conversions](conversions.html) and [levaindoc-util](levaindoc-util.html)."
+  (markdown_github-file->html file))
 
 (defun convert-file (file from to)
-  "Equivalent to `(`[[convert-file/4]]` file from to [])`."
+  "Equivalent to `(`[[convert-file/4]] `file from to [])`."
   (convert-file file from to []))
 
 (defun convert-file (file from to _options)
