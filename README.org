@@ -10,7 +10,7 @@ Levaindoc can perform [[http://pandoc.org/diagram.jpg][lots of conversions]].
 {deps,
  [{levaindoc,
    {git, "git://github.com/quasiquoting/levaindoc.git",
-    {branch, "master"}}}]}.
+    {tag, "0.1.0"}}}]}.
 #+END_SRC
 
 ** TODO Usage
