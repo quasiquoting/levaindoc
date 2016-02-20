@@ -62,7 +62,7 @@ otherwise if `test` evaluates to `true`, return `undefined`."
 (defun convert-string (string from to _options)
   (let ((dot-temp ".temp"))
     (when-not (filelib:is_dir dot-temp) (file:make_dir dot-temp))
-    (let ((name (filename:join dot-temp (random-name))))
+    (let ((name (filename:join dot-temp (levaindoc-util:random-name))))
       (file:write_file name string)
       (let ((`#(ok ,output) (convert-file name from to)))
         (file:delete name)
@@ -80,19 +80,3 @@ otherwise if `test` evaluates to `true`, return `undefined`."
   "[[convert-file/4]] works under the hood of all the other functions."
   (let ((output (os:cmd (++ "pandoc " file " -f " from " -t " to))))
     `#(ok ,output)))
-
-(defun random-name ()
-  (++ (random-string) "-" (timestamp) ".md"))
-
-(defun random-string ()
-  (random:seed (erlang:monotonic_time)
-               (erlang:time_offset)
-               (erlang:unique_integer))
-  (-> #0x100000000000000
-      (random:uniform)
-      (integer_to_list 36)
-      (string:to_lower)))
-
-(defun timestamp ()
-  (let ((`#(,megasec ,sec ,_microsec) (os:timestamp)))
-    (-> (* megasec 1000000) (+ sec) (integer_to_list))))

@@ -6,7 +6,7 @@
   {registered,   []},
   {applications, [kernel, stdlib]},
   {env,          []},
-  {modules,      [levaindoc]},
+  {modules,      [levaindoc, 'levaindoc-util']},
 
   {contributors, ["Eric Bailey"]},
   {licenses,     ["MIT"]},
