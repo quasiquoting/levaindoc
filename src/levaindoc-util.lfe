@@ -1,5 +1,5 @@
 (defmodule levaindoc-util
-  (doc "Utility functions for [[levaindoc]].")
+  (doc "Utility functions for [levaindoc](levaindoc.html).")
   ;; Conversions
   (export (input-formats 0) (output-formats 0))
   ;; Random filename
