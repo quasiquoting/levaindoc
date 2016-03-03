@@ -12,7 +12,7 @@
   1},
  {<<"lfe">>,
   {git,"git://github.com/rvirding/lfe",
-       {ref,"f0c613e6ebe9cd185782de224dfb5c1f261403cc"}},
+       {ref,"d7bc80da04aedd0a607f17d8d149eba363872b4b"}},
   0},
  {<<"ltest">>,
   {git,"git://github.com/lfex/ltest.git",
