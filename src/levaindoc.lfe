@@ -1,6 +1,5 @@
 (defmodule levaindoc
   (doc "A partial LFE port of [Pandex](https://github.com/FilterKaapi/pandex).")
-  (import (rename erlang ((list_to_atom 1) list->atom)))
   ;; API
   (export (convert-string 1) (convert-string 3) (convert-string 4)
           (convert-file   1) (convert-file   3) (convert-file   4))
