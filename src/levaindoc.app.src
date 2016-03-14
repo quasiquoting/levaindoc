@@ -2,7 +2,7 @@
 
 {application,    levaindoc,
  [{description,  "Lightweight LFE wrapper for pandoc."},
-  {vsn,          "0.3.1"},
+  {vsn,          "0.3.2"},
   {registered,   []},
   {applications, [kernel, stdlib]},
   {env,          []},
