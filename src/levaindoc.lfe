@@ -6,9 +6,9 @@
   ;; Conversions
   (export all))
 
-(include-lib "include/conditionals.lfe")
+(include-lib "levaindoc/include/conditionals.lfe")
 
-(include-lib "include/conversions.lfe")
+(include-lib "levaindoc/include/conversions.lfe")
 
 
 ;;;===================================================================
