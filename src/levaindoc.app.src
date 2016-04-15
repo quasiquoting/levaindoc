@@ -1,14 +1,14 @@
 %% -*- erlang -*-
 
-{application,    levaindoc,
- [{description,  "Lightweight LFE wrapper for pandoc."},
-  {vsn,          "0.3.2"},
+{application,    levaindoc, [
+  {description,  "Lightweight LFE wrapper for pandoc."},
+  {vsn,          "0.3.3"},
   {registered,   []},
   {applications, [kernel, stdlib]},
   {env,          []},
   {modules,      [levaindoc, 'levaindoc-util']},
 
-  {contributors, ["Eric Bailey"]},
+  {maintainers, ["Eric Bailey"]},
   {licenses,     ["MIT"]},
-  {links,        [{"GitHub", "https://github.com/quasiquoting/levaindoc"}]}
- ]}.
+  {links,        [{"GitHub", "https://github.com/lfe-rebar3/levaindoc"}]}
+]}.
