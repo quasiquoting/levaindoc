@@ -1,3 +1,6 @@
+#+STARTUP: showall
+#+OPTIONS: ^:{} toc:nil
+
 * levaindoc
 Levaindoc is a lightweight LFE wrapper for [[http://pandoc.org][pandoc]],
 based on its Elixir cousin, [[https://github.com/FilterKaapi/pandex][pandex]].
@@ -7,10 +10,9 @@ Levaindoc can perform [[http://pandoc.org/diagram.jpg][lots of conversions]].
 ** Installation
 [[http://pandoc.org/installing.html][Install pandoc]] and add Levaindoc to =rebar.config=:
 #+BEGIN_SRC erlang
-{deps,
- [{levaindoc,
-   {git, "git://github.com/quasiquoting/levaindoc.git",
-    {tag, "0.2.0"}}}]}.
+{deps, [
+  levaindoc
+]}.
 #+END_SRC
 
 ** TODO Usage

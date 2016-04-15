@@ -2,13 +2,13 @@
 
 {application,    levaindoc, [
   {description,  "Lightweight LFE wrapper for pandoc."},
-  {vsn,          "0.3.3"},
+  {vsn,          "0.4.0"},
   {registered,   []},
   {applications, [kernel, stdlib]},
   {env,          []},
   {modules,      [levaindoc, 'levaindoc-util']},
 
-  {maintainers, ["Eric Bailey"]},
+  {maintainers,  ["Eric Bailey"]},
   {licenses,     ["MIT"]},
-  {links,        [{"GitHub", "https://github.com/lfe-rebar3/levaindoc"}]}
+  {links,        [{"GitHub", "https://github.com/quasiquoting/levaindoc"}]}
 ]}.
