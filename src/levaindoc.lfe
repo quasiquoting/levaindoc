@@ -6,8 +6,6 @@
   ;; Conversions
   (export all))
 
-(include-lib "levaindoc/include/conditionals.lfe")
-
 (include-lib "levaindoc/include/conversions.lfe")
 
 
@@ -28,7 +26,10 @@
 (defun convert-string (string)
   "Equivalent to `markdown_github->html/1`, which calls [[convert-string/3]].
 
-See [conversions](conversions.html) and [levaindoc-util](levaindoc-util.html)."
+  See [conversions][] and [levaindoc-util][].
+
+  [conversions]: conversions.html
+  [levaindoc-util]: levaindoc-util.html"
   (markdown_github->html string))
 
 (defun convert-string (string from to)
@@ -38,11 +39,11 @@ See [conversions](conversions.html) and [levaindoc-util](levaindoc-util.html)."
 (defun convert-string (string from to options)
   "Convert a `string` from input format `from` to output format `to`.
 
-Write `string` to a random temporary file ([[levaindoc-util:random-name/0]]);
-call [[convert-file/4]], capturing the output; delete the temporary file
-and return `` `#(ok ,output) ``."
+  Write `string` to a random temporary file ([[levaindoc-util:random-name/0]]);
+  call [[convert-file/4]], capturing the output; delete the temporary file
+  and return `` `#(ok ,output) ``."
   (let ((dot-temp ".temp"))
-    (when-not (filelib:is_dir dot-temp) (file:make_dir dot-temp))
+    (if (filelib:is_dir dot-temp) 'ok (file:make_dir dot-temp))
     (let ((name (filename:join dot-temp (levaindoc-util:random-name))))
       (file:write_file name string)
       (let ((`#(ok ,output) (convert-file name from to options)))
@@ -52,7 +53,10 @@ and return `` `#(ok ,output) ``."
 (defun convert-file (file)
   "Equivalent to `markdown_github-file->html/1`, which calls [[convert-file/3]].
 
-See [conversions](conversions.html) and [levaindoc-util](levaindoc-util.html)."
+  See [conversions][] and [levaindoc-util][].
+
+  [conversions]: conversions.html
+  [levaindoc-util]: levaindoc-util.html"
   (markdown_github-file->html file))
 
 (defun convert-file (file from to)
@@ -61,8 +65,8 @@ See [conversions](conversions.html) and [levaindoc-util](levaindoc-util.html)."
 
 (defun convert-file (file from to _options)
   "Convert a `file` from input format `from` to output format `to`.
-Return `` `#(ok ,output) ``.
+  Return `` `#(ok ,output) ``.
 
-A list of `_options` is currently ignored."
+  A list of `_options` is currently ignored."
   (let ((output (os:cmd (++ "pandoc " file " -f " from " -t " to))))
     `#(ok ,output)))
