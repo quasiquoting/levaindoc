@@ -1,21 +1,50 @@
 (defmodule levaindoc
-  (doc "A partial LFE port of [Pandex](https://github.com/FilterKaapi/pandex).")
+  "A partial LFE port of [Pandex](https://github.com/FilterKaapi/pandex)."
   ;; API
   (export (convert-string 1) (convert-string 3) (convert-string 4)
-          (convert-file   1) (convert-file   3) (convert-file   4))
-  ;; Conversions
-  (export all))
-
-(include-lib "levaindoc/include/conversions.lfe")
-
+          (convert-file   1) (convert-file   3) (convert-file   4)))
 
 ;;;===================================================================
 ;;; Conversions
 ;;;===================================================================
 
-;; Define all the conversion functions, unary and binary,
-;; with names of the form, {{input-format}}->{{output-format}}.
-;; See include/conversions.lfe for details.
+(eval-when-compile
+  (defun defn (name args doc body)
+    "Similar to Clojure's `defn`. Define and export a function."
+    `(progn (defun ,name ,args ,doc ,body)
+            (extend-module () ((export (,name ,(length args)))))))
+  (defun defconv (input output)
+    "Define conversion functions from `input` to `output`."
+    `(progn
+       ,@(let ((|-CONV-| (list_to_atom (++ input "->" output))))
+           `(,(defn |-CONV-| '(string _options)
+                (++ "Given a `string` in " input " format, "
+                    "convert it to " output ".\n  "
+                    "N.B. `_options` are currently ignored.")
+                `(convert-string string ,input ,output))
+             ,(defn |-CONV-| '(string)
+                (++ "Given a `string` in " input " format, "
+                    "convert it to " output ".")
+                `(,|-CONV-| string []))))
+       ,@(let ((|-FILE-CONV-| (list_to_atom (++ input "-file->" output))))
+           `(,(defn |-FILE-CONV-| '(file _options)
+                (++ "Read the file `file` and convert its "
+                    input "-formatted contents to " output ".\n  "
+                    "N.B. `_options` are currently ignored.")
+                `(convert-file file ,input ,output))
+             ,(defn |-FILE-CONV-| '(file)
+                (++ "Read the file `file` and convert its "
+                    input "-formatted contents to " output ".")
+                `(,|-FILE-CONV-| file [])))))))
+
+(defmacro defconversions ()
+  "Call [[defconv/2]] on every supported `input`/`output` pair."
+  `(progn ,@(lc ((<- input  (levaindoc-util:input-formats))
+                 (<- output (levaindoc-util:output-formats)))
+              (defconv input output))))
+
+;; Define all the conversion functions, unary and binary, for strings and files,
+;; with the names, {{input-}}->{{output}} and {{input}}-file->{{output}}.
 (defconversions)
 
 
