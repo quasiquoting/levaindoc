@@ -3,8 +3,7 @@
   ;; Conversions
   (export (input-formats 0) (output-formats 0))
   ;; Random filename
-  (export (random-name 0))
-  (import (from erlang (monotonic_time 0) (time_offset 0) (unique_integer 0))))
+  (export (random-name 0)))
 
 
 ;;;===================================================================
@@ -81,7 +80,9 @@ Output formats: asciidoc, beamer, commonmark, context, docbook, docx, dokuwiki,
 
 (defun random-string ()
   "Generate a random, 11-character, alphanumeric string."
-  (random:seed (monotonic_time) (time_offset) (unique_integer))
+  (random:seed (erlang:monotonic_time)
+               (erlang:time_offset)
+               (erlang:unique_integer))
   (string:to_lower (integer_to_list (random:uniform #0x100000000000000) 36)))
 
 (defun timestamp ()
