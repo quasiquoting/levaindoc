@@ -1,5 +1,10 @@
 (defmodule levaindoc-util
-  "Utility functions for [levaindoc](levaindoc.html)."
+  "Utility functions for [levaindoc](https://github.com/quasiquoting/levaindoc).
+  For each `input`/`output` pair, there exist conversion functions
+  `levaindoc:{{input}}->{{output}}/{1,2}` and
+  `levaindoc:{{input}}-file->{{output}}/{1,2}`, where the first argument is a
+  `string` or `file` name, respectively, and the second is a (currently ignored)
+  list of `options`."
   ;; Conversions
   (export (input-formats 0) (output-formats 0))
   ;; Random filename
