@@ -1,5 +1,5 @@
 (defmodule levaindoc
-  (doc "A partial LFE port of [Pandex](https://github.com/FilterKaapi/pandex).")
+  "A partial LFE port of [Pandex](https://github.com/FilterKaapi/pandex)."
   ;; API
   (export (convert-string 1) (convert-string 3) (convert-string 4)
           (convert-file   1) (convert-file   3) (convert-file   4))
@@ -13,8 +13,8 @@
 ;;; Conversions
 ;;;===================================================================
 
-;; Define all the conversion functions, unary and binary,
-;; with names of the form, {{input-format}}->{{output-format}}.
+;; Define all the conversion functions, unary and binary, for strings and files,
+;; with the names, {{input-}}->{{output}} and {{input}}-file->{{output}}.
 ;; See include/conversions.lfe for details.
 (defconversions)
 
