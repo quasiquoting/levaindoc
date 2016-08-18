@@ -2,7 +2,7 @@
 
 {application,    levaindoc, [
   {description,  "Lightweight LFE wrapper for pandoc."},
-  {vsn,          "0.5.1"},
+  {vsn,          "0.6.1"},
   {registered,   []},
   {applications, [kernel, stdlib]},
   {env,          []},
@@ -10,5 +10,8 @@
 
   {maintainers,  ["Eric Bailey"]},
   {licenses,     ["MIT"]},
-  {links,        [{"GitHub", "https://github.com/quasiquoting/levaindoc"}]}
+  {links, [
+    {"GitHub",        "https://github.com/quasiquoting/levaindoc"},
+    {"Documentation", "http://quasiquoting.org/levaindoc"}
+  ]}
 ]}.
