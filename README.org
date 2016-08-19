@@ -12,7 +12,7 @@ Levaindoc can perform [[http://pandoc.org/diagram.jpg][lots of conversions]].
 #+BEGIN_SRC erlang
 {deps, [
   {git, "git://github.com/quasiquoting/levaindoc.git",
-   {tag, "0.5.0"}}
+   {tag, "0.6.1"}}
 ]}.
 #+END_SRC
 
