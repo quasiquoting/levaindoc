@@ -6,9 +6,13 @@
   (export (convert-string 1) (convert-string 3) (convert-string 4)
           (convert-file   1) (convert-file   3) (convert-file   4)))
 
+;; TODO:
+;; (include-lib "lfe/include/clj.lfe")
+
 ;;; ============================================================ [ Conversions ]
 
 (eval-when-compile
+  ;; TODO: Remove this and use clj:defn once a new lfe Hex package is published.
   (defun defn (name args doc body)
     "Similar to Clojure's `defn`. Define and export a function."
     `(progn (defun ,name ,args ,doc ,body)
