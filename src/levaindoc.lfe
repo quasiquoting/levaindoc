@@ -1,12 +1,12 @@
+;;; ========================================================== [ levaindoc.lfe ]
+
 (defmodule levaindoc
   "A partial LFE port of [Pandex](https://github.com/FilterKaapi/pandex)."
   ;; API
   (export (convert-string 1) (convert-string 3) (convert-string 4)
           (convert-file   1) (convert-file   3) (convert-file   4)))
 
-;;;===================================================================
-;;; Conversions
-;;;===================================================================
+;;; ============================================================ [ Conversions ]
 
 (eval-when-compile
   (defun defn (name args doc body)
@@ -47,10 +47,7 @@
 ;; with the names, {{input-}}->{{output}} and {{input}}-file->{{output}}.
 (defconversions)
 
-
-;;;===================================================================
-;;; API
-;;;===================================================================
+;;; ==================================================================== [ API ]
 
 (defun convert-string (string)
   "Equivalent to `markdown_github->html/1`, which calls [[convert-string/3]].
@@ -99,3 +96,5 @@
   A list of `_options` is currently ignored."
   (let ((output (os:cmd (++ "pandoc " file " -f " from " -t " to))))
     `#(ok ,output)))
+
+;;; ==================================================================== [ EOF ]

@@ -1,3 +1,5 @@
+;;; ===================================================== [ levaindoc-util.lfe ]
+
 (defmodule levaindoc-util
   "Utility functions for [levaindoc](https://github.com/quasiquoting/levaindoc).
   For each `input`/`output` pair, there exist conversion functions
@@ -10,10 +12,7 @@
   ;; Random filename
   (export (random-name 0)))
 
-
-;;;===================================================================
-;;; Conversions
-;;;===================================================================
+;;; ============================================================ [ Conversions ]
 
 (defun input-formats ()
   "The list of supported input formats.
@@ -69,19 +68,13 @@
     "native" "odt" "opendocument" "opml" "org" "pdf" "plain" "revealjs"
     "rst" "rtf" "s5" "slideous" "slidy" "tei" "texinfo" "textile"])
 
-
-;;;===================================================================
-;;; Random filename
-;;;===================================================================
+;;; ======================================================== [ Random filename ]
 
 (defun random-name ()
   "Generate a random filename, ending in `.temp`."
   (++ (random-string) "-" (timestamp) ".temp"))
 
-
-;;;===================================================================
-;;; Internal functions
-;;;===================================================================
+;;; ===================================================== [ Internal functions ]
 
 (defun random-string ()
   "Generate a random, 11-character, alphanumeric string."
@@ -94,3 +87,5 @@
   "Return the current timestamp, as a string."
   (let ((`#(,megasec ,sec ,_microsec) (os:timestamp)))
     (integer_to_list (+ sec (* megasec 1000000)))))
+
+;;; ==================================================================== [ EOF ]
