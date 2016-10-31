@@ -6,49 +6,51 @@
   (export (convert-string 1) (convert-string 3) (convert-string 4)
           (convert-file   1) (convert-file   3) (convert-file   4)))
 
-;; TODO:
-;; (include-lib "lfe/include/clj.lfe")
+(include-lib "lfe/include/clj.lfe")
 
 ;;; ============================================================ [ Conversions ]
 
 (eval-when-compile
-  ;; TODO: Remove this and use clj:defn once a new lfe Hex package is published.
-  (defun defn (name args doc body)
-    "Similar to Clojure's `defn`. Define and export a function."
-    `(progn (defun ,name ,args ,doc ,body)
-            (extend-module () ((export (,name ,(length args)))))))
-  (defun defconv (input output)
-    "Define conversion functions from `input` to `output`."
-    `(progn
-       ,@(let ((|-CONV-| (list_to_atom (++ input "->" output))))
-           `(,(defn |-CONV-| '(string _options)
-                (++ "Given a `string` in " input " format, "
-                    "convert it to " output ".\n  "
-                    "N.B. `_options` are currently ignored.")
-                `(convert-string string ,input ,output))
-             ,(defn |-CONV-| '(string)
-                (++ "Given a `string` in " input " format, "
-                    "convert it to " output ".")
-                `(,|-CONV-| string []))))
-       ,@(let ((|-FILE-CONV-| (list_to_atom (++ input "-file->" output))))
-           `(,(defn |-FILE-CONV-| '(file _options)
-                (++ "Read the file `file` and convert its "
-                    input "-formatted contents to " output ".\n  "
-                    "N.B. `_options` are currently ignored.")
-                `(convert-file file ,input ,output))
-             ,(defn |-FILE-CONV-| '(file)
-                (++ "Read the file `file` and convert its "
-                    input "-formatted contents to " output ".")
-                `(,|-FILE-CONV-| file [])))))))
+  (defun -name
+    (['file input output]
+     (list_to_atom (++ input "-file->" output)))
+    (['string input output]
+     (list_to_atom (++ input "->" output))))
+  (defun -doc
+    (['file 1 input output]
+     (++ "Read the file `file` and convert its "
+         input "-formatted contents to " output "."))
+    (['file 2 input output]
+     (++ "Read the file `file` and convert its "
+         input "-formatted contents to " output ".\n  "
+         "N.B. `_options` are currently ignored."))
+    (['string 1 input output]
+     (++ "Given a `string` in " input " format, convert it to " output "."))
+    (['string 2 input output]
+     (++ "Given a `string` in " input " format, convert it to " output ".\n  "
+         "N.B. `_options` are currently ignored.")))
+  (defun -fun (source)
+    (list_to_atom (++ "convert-" (atom_to_list source))))
+  (defun defconv (source input output)
+    (let ((|-CONV-| (-name source input output)))
+      `(progn
+         (defn , |-CONV-| (,source  _options)
+           ,(-doc source 2 input output)
+           (,(-fun source) ,source ,input ,output))
+         (defn ,|-CONV-| (,source)
+           ,(-doc source 1 input output)
+           (,|-CONV-| ,source []))))))
 
 (defmacro defconversions ()
-  "Call [[defconv/2]] on every supported `input`/`output` pair."
-  `(progn ,@(lc ((<- input  (levaindoc-util:input-formats))
-                 (<- output (levaindoc-util:output-formats)))
-              (defconv input output))))
+  "For each supported `input`/`output` pair, define the conversion functions
+  `{{input-}}->{{output}}/{1,2}` and `{{input}}-file->{{output}}/{1,2}`,
+  for strings and files, respectively."
+  `(progn
+     ,@(lc ((<- input   (levaindoc-util:input-formats))
+            (<- output  (levaindoc-util:output-formats))
+            (<- source '[file string]))
+         (defconv source input output))))
 
-;; Define all the conversion functions, unary and binary, for strings and files,
-;; with the names, {{input-}}->{{output}} and {{input}}-file->{{output}}.
 (defconversions)
 
 ;;; ==================================================================== [ API ]
@@ -72,13 +74,13 @@
   Write `string` to a random temporary file ([[levaindoc-util:random-name/0]]);
   call [[convert-file/4]], capturing the output; delete the temporary file
   and return `` `#(ok ,output) ``."
-  (let ((dot-temp ".temp"))
-    (if (filelib:is_dir dot-temp) 'ok (file:make_dir dot-temp))
-    (let ((name (filename:join dot-temp (levaindoc-util:random-name))))
-      (file:write_file name string)
-      (let ((`#(ok ,output) (convert-file name from to options)))
-        (file:delete name)
-        `#(ok ,output)))))
+  (let* ((dot-temp ".temp")
+         ('ok (filelib:ensure_dir (filename:join dot-temp "dummy")))
+         (name (doto (filename:join dot-temp (levaindoc-util:random-name))
+                 (file:write_file string)))
+         (`#(ok ,output) (convert-file name from to options)))
+    (file:delete name)
+    `#(ok ,output)))
 
 (defun convert-file (file)
   "Equivalent to `markdown_github-file->html/1`, which calls [[convert-file/3]].
