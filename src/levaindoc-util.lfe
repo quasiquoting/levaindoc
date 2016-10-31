@@ -13,6 +13,8 @@
   (export (random-name 0))
   (import (rename erlang ((function_exported 3) exported?))))
 
+(include-lib "lfe/include/clj.lfe")
+
 ;;; ================================================================= [ Macros ]
 
 (defmacro timestamp ()
@@ -92,6 +94,9 @@
   (random:seed (erlang:monotonic_time)
                (erlang:time_offset)
                (erlang:unique_integer))
-  (string:to_lower (integer_to_list (random:uniform #0x100000000000000) 36)))
+  (-> #0x100000000000000
+      (random:uniform)
+      (integer_to_list 36)
+      (string:to_lower)))
 
 ;;; ==================================================================== [ EOF ]
