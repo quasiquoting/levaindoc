@@ -10,7 +10,18 @@
   ;; Conversions
   (export (input-formats 0) (output-formats 0))
   ;; Random filename
-  (export (random-name 0)))
+  (export (random-name 0))
+  (import (rename erlang ((function_exported 3) exported?))))
+
+;;; ================================================================= [ Macros ]
+
+(defmacro timestamp ()
+  "Return the current timestamp, as a string."
+  `(integer_to_list
+    ,(if (erlang:function_exported 'erlang 'system_time 1)
+       `(erlang:system_time 'seconds)
+       `(let ((`#(,megasec ,sec ,_microsec) (os:timestamp)))
+          (+ sec (* megasec 1000000))))))
 
 ;;; ============================================================ [ Conversions ]
 
@@ -82,10 +93,5 @@
                (erlang:time_offset)
                (erlang:unique_integer))
   (string:to_lower (integer_to_list (random:uniform #0x100000000000000) 36)))
-
-(defun timestamp ()
-  "Return the current timestamp, as a string."
-  (let ((`#(,megasec ,sec ,_microsec) (os:timestamp)))
-    (integer_to_list (+ sec (* megasec 1000000)))))
 
 ;;; ==================================================================== [ EOF ]
