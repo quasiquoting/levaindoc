@@ -1,3 +1,5 @@
+;;; ===================================================== [ levaindoc-util.lfe ]
+
 (defmodule levaindoc-util
   "Utility functions for [levaindoc](https://github.com/quasiquoting/levaindoc).
   For each `input`/`output` pair, there exist conversion functions
@@ -8,12 +10,22 @@
   ;; Conversions
   (export (input-formats 0) (output-formats 0))
   ;; Random filename
-  (export (random-name 0)))
+  (export (random-name 0))
+  (import (rename erlang ((function_exported 3) exported?))))
 
+(include-lib "lfe/include/clj.lfe")
 
-;;;===================================================================
-;;; Conversions
-;;;===================================================================
+;;; ================================================================= [ Macros ]
+
+(defmacro timestamp ()
+  "Return the current timestamp, as a string."
+  `(integer_to_list
+    ,(if (erlang:function_exported 'erlang 'system_time 1)
+       `(erlang:system_time 'seconds)
+       `(let ((`#(,megasec ,sec ,_microsec) (os:timestamp)))
+          (+ sec (* megasec 1000000))))))
+
+;;; ============================================================ [ Conversions ]
 
 (defun input-formats ()
   "The list of supported input formats.
@@ -69,28 +81,22 @@
     "native" "odt" "opendocument" "opml" "org" "pdf" "plain" "revealjs"
     "rst" "rtf" "s5" "slideous" "slidy" "tei" "texinfo" "textile"])
 
-
-;;;===================================================================
-;;; Random filename
-;;;===================================================================
+;;; ======================================================== [ Random filename ]
 
 (defun random-name ()
   "Generate a random filename, ending in `.temp`."
   (++ (random-string) "-" (timestamp) ".temp"))
 
-
-;;;===================================================================
-;;; Internal functions
-;;;===================================================================
+;;; ===================================================== [ Internal functions ]
 
 (defun random-string ()
   "Generate a random, 11-character, alphanumeric string."
   (random:seed (erlang:monotonic_time)
                (erlang:time_offset)
                (erlang:unique_integer))
-  (string:to_lower (integer_to_list (random:uniform #0x100000000000000) 36)))
+  (-> #0x100000000000000
+      (random:uniform)
+      (integer_to_list 36)
+      (string:to_lower)))
 
-(defun timestamp ()
-  "Return the current timestamp, as a string."
-  (let ((`#(,megasec ,sec ,_microsec) (os:timestamp)))
-    (integer_to_list (+ sec (* megasec 1000000)))))
+;;; ==================================================================== [ EOF ]
